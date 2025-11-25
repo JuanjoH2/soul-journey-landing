@@ -10,6 +10,13 @@ module.exports = {
       colors: {
         primary: "var(--color-primary)",
         secondary: "var(--color-secondary)",
+        "sj-background": "#0E0E0E",
+        "sj-primary": "#0091E1",
+        "sj-secondary": "#FFD700",
+        "sj-text": "#FFFFFF",
+        "sj-success": "#50C878",
+        "sj-text-offset": "#A0A0A0",
+        "sj-background-offset": "#1A1A1A",
       },
       textColor: {
         default: "var(--color-text)",
