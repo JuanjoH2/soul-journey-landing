@@ -1,18 +1,38 @@
 ---
 import "@fontsource-variable/inter";
-import Compatibility from "~/components/compatibility.astro";
-import Features from "~/components/features.astro";
+import { Icon } from "astro-icon/components";
 import Footer from "~/components/footer.astro";
 import Header from "~/components/header.astro";
-import Intro from "~/components/intro.astro";
-import Showcase from "~/components/showcase.astro";
-import Splash from "~/components/splash.astro";
+import ContentSection from "~/components/content-section.astro";
+import Starfield from "~/components/starfield.astro";
 import "~/styles/index.css";
+import type { FeatureItem } from "~/types";
 
 const { generator, site } = Astro;
 const image = new URL("social.jpg", site);
 const description =
-  "Build fast websites, faster. Astro is a new kind of site builder for the modern web. Lightning-fast performance meets powerful developer experience.";
+  "Stop drifting. Start your journey. Soul Journey is a gamified app that helps you discover your purpose and build a life you love.";
+
+const features: Array<FeatureItem> = [
+  {
+    title: "Discover Your Polaris",
+    description:
+      "Through a series of guided exercises, you'll uncover your unique purpose, your 'Polaris', the North Star that will guide your every action.",
+    icon: "mdi:star-four-points-outline",
+  },
+  {
+    title: "Embark on Quests",
+    description:
+      "Turn your goals into exciting quests. Our smart habit tracker helps you build momentum and stay motivated on your journey.",
+    icon: "mdi:rocket-launch-outline",
+  },
+  {
+    title: "Challenge Your Friends",
+    description:
+      "You're not alone on this journey. Team up with friends, take on challenges together, and celebrate each other's victories.",
+    icon: "mdi:sword-cross",
+  },
+];
 ---
 
 <!doctype html>
@@ -23,11 +43,11 @@ const description =
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="generator" content={generator} />
 
-    <title>Astro Landing Page</title>
+    <title>Soul Journey - Your Life's Adventure Awaits</title>
     <meta name="description" content={description} />
 
     <!-- social media -->
-    <meta property="og:title" content="Astro" />
+    <meta property="og:title" content="Soul Journey" />
     <meta property="og:type" content="website" />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={image} />
@@ -41,34 +61,138 @@ const description =
       if (themeSaved) {
         document.documentElement.dataset.theme = themeSaved;
       } else {
-        const prefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)",
-        ).matches;
-        document.documentElement.dataset.theme = prefersDark ? "dark" : "light";
+        document.documentElement.dataset.theme = "dark";
       }
-
-      window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .addEventListener("change", (event) => {
-          if (!localStorage.getItem("theme")) {
-            document.documentElement.dataset.theme = event.matches
-              ? "dark"
-              : "light";
-          }
-        });
     </script>
   </head>
   <body
     class="h-full overflow-x-hidden bg-default text-default text-base selection:bg-secondary selection:text-white"
   >
     <Header />
-    <Splash />
-    <div class="space-y-24 px-8 py-32">
-      <Intro />
-      <Features />
-      <Compatibility />
-      <Showcase />
-    </div>
+
+    <main>
+      <!-- Hero Section -->
+      <section class="relative h-screen text-white">
+        <Starfield />
+        <div class="absolute inset-0 bg-black/50 z-1"></div>
+        
+        <!-- Astronaut for desktop -->
+        <div class="absolute z-10 top-1/2 -translate-y-1/2 right-[10%] w-1/3 max-w-sm hidden md:block">
+          <img
+            src="/src/assets/astronaut.png"
+            alt="An astronaut floating"
+            class="w-full h-full float-animation"
+          />
+        </div>
+
+        <div
+          class="relative z-20 flex flex-col items-center justify-center h-full px-8 text-center md:items-start md:text-left md:px-20 lg:px-32 md:w-2/3"
+        >
+          <!-- Astronaut for mobile -->
+          <div class="md:hidden w-1/2 max-w-xs float-animation mb-8">
+            <img
+              src="/src/assets/astronaut.png"
+              alt="An astronaut floating"
+              class="w-full h-full"
+            />
+          </div>
+          <h1 class="font-extrabold text-5xl md:text-7xl gradient-text">
+            Your Life's Adventure Awaits.
+          </h1>
+          <p class="mt-4 text-lg md:text-xl max-w-2xl text-offset">
+            Stop drifting and start your journey. Soul Journey is a gamified app that helps you discover your purpose and build a life you love.
+          </p>
+          <a
+            href="#waitlist"
+            class="mt-8 px-8 py-3 bg-primary text-white font-bold rounded-full hover:bg-sj-primary/90 transition-colors"
+          >
+            Join the Waitlist
+          </a>
+        </div>
+      </section>
+
+      <div class="space-y-24 px-8 py-32">
+        <!-- The Problem Section -->
+        <ContentSection
+          title="Feeling Lost in the Cosmos?"
+          id="problem"
+        >
+          <Fragment slot="lead">
+            In the vast universe of possibilities, it's easy to lose your way. You have ambition, you have dreams, but the path forward is unclear. You're not alone.
+          </Fragment>
+          <div class="max-w-4xl mx-auto">
+              <p class="text-center text-offset">Soul Journey is your compass. We believe that finding your purpose shouldn't be a chore; it should be an epic adventure. We've combined the ancient wisdom of Ikigai with modern game design to create a unique experience that guides you to your North Star.</p>
+          </div>
+        </ContentSection>
+
+        <!-- Features Section -->
+        <ContentSection title="What's in Your Inventory?" id="features">
+          <ul class="grid max-w-6xl grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {
+              features.map(({ title, description, icon }) => (
+                <li class="flex flex-col items-center gap-4 border border-default bg-offset p-6 rounded-lg">
+                  <div class="size-16 rounded-full border-2 border-primary p-3 text-primary">
+                    <Icon name={icon} class="size-full" />
+                  </div>
+                  <p class="text-center font-extrabold text-xl">{title}</p>
+                  <p class="text-center text-offset text-sm">{description}</p>
+                </li>
+              ))
+            }
+          </ul>
+        </ContentSection>
+        
+        <!-- How it Works Section -->
+        <ContentSection title="Your Epic Begins in 3 Steps" id="how-it-works">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+              <div class="border border-default bg-offset p-6 rounded-lg">
+                  <p class="font-extrabold text-primary text-4xl">1.</p>
+                  <h3 class="font-bold text-xl mt-2">Find Your Why</h3>
+                  <p class="text-offset text-sm mt-2">Answer the call to adventure and define your life's purpose.</p>
+              </div>
+              <div class="border border-default bg-offset p-6 rounded-lg">
+                  <p class="font-extrabold text-primary text-4xl">2.</p>
+                  <h3 class="font-bold text-xl mt-2">Build Your Habits</h3>
+                  <p class="text-offset text-sm mt-2">Accept quests and build habits that align with your new-found purpose.</p>
+              </div>
+              <div class="border border-default bg-offset p-6 rounded-lg">
+                  <p class="font-extrabold text-primary text-4xl">3.</p>
+                  <h3 class="font-bold text-xl mt-2">Level Up Your Life</h3>
+                  <p class="text-offset text-sm mt-2">Gain experience, unlock achievements, and become the hero of your own story.</p>
+              </div>
+          </div>
+        </ContentSection>
+
+        <!-- CTA / Waitlist Form Section -->
+        <section id="waitlist" class="flex flex-col items-center py-20">
+          <h2 class="font-extrabold text-4xl text-center">Be a Pioneer of Purpose</h2>
+          <p class="mt-4 text-lg text-offset text-center max-w-2xl">
+            The journey of a thousand miles begins with a single step. Join the waitlist and be the first to know when Soul Journey is ready for launch.
+          </p>
+          <form
+            name="waitlist"
+            method="POST"
+            data-netlify="true"
+            class="mt-8 flex flex-col md:flex-row gap-4 w-full max-w-md"
+          >
+            <input
+              type="email"
+              name="email"
+              placeholder="Your email address"
+              class="flex-grow px-4 py-3 bg-offset border border-default rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary"
+              required
+            />
+            <button
+              type="submit"
+              class="px-8 py-3 bg-primary text-white font-bold rounded-md hover:bg-sj-primary/90 transition-colors"
+            >
+              Join the Adventure
+            </button>
+          </form>
+        </section>
+      </div>
+    </main>
+
     <Footer />
   </body>
 </html>
