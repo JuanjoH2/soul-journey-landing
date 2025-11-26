@@ -13,7 +13,8 @@ import astronautImage from "~/assets/astronaut.png";
 import { Image } from "astro:assets";
 
 const { generator, site } = Astro;
-const image = new URL("socialImg.jpg?v=1.1", site);
+
+const image = new URL("/socialImg.jpg", site);
 const description =
   "Stop drifting. Start your journey. Soul Journey is a gamified app that helps you discover your purpose and build a life you love.";
 
