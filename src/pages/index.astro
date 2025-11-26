@@ -1,5 +1,5 @@
 ---
-import Analytics from '@vercel/analytics/astro';
+import Analytics from "@vercel/analytics/astro";
 import KitForm from "~/components/kit-form.astro";
 import "@fontsource-variable/inter";
 import { Icon } from "astro-icon/components";
@@ -9,6 +9,8 @@ import ContentSection from "~/components/content-section.astro";
 import Starfield from "~/components/starfield.astro";
 import "~/styles/index.css";
 import type { FeatureItem } from "~/types";
+import astronautImage from "~/assets/astronaut.png";
+import { Image } from "astro:assets";
 
 const { generator, site } = Astro;
 const image = new URL("social.jpg", site);
@@ -82,8 +84,8 @@ const features: Array<FeatureItem> = [
         <div
           class="absolute right-[10%] top-1/2 z-10 hidden w-1/3 max-w-sm -translate-y-1/2 md:block"
         >
-          <img
-            src="/src/assets/astronaut.png"
+          <Image
+            src={astronautImage}
             alt="An astronaut floating"
             class="float-animation h-full w-full"
           />
@@ -94,8 +96,8 @@ const features: Array<FeatureItem> = [
         >
           <!-- Astronaut for mobile -->
           <div class="float-animation mb-8 w-1/2 max-w-xs md:hidden">
-            <img
-              src="/src/assets/astronaut.png"
+            <Image
+              src={astronautImage}
               alt="An astronaut floating"
               class="h-full w-full"
             />
